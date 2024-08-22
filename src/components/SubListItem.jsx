@@ -1,4 +1,4 @@
-import {FileText, Link, File, Edit, Trash, MoreHorizontal} from "lucide-react";
+import {FileText, Link, File, Edit, Trash2, ArrowDownToLine , MoreHorizontal} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem} from "@/components/ui/dropdown-menu";
 
@@ -13,9 +13,9 @@ const SubListItem = (props) => {
                 return <File className="mr-2 h-4 w-4"/>;
         }
     };
-
+ 
     return (
-        <div className="flex items-center p-2 border-b last:border-0">
+        <div  className="flex gap-3  items-center py-4 ml-14 border-b last:border-0">
             {getIcon(props.item.type)}
             <div className="flex-1">
                 <div className="text-sm font-medium">{props.item.name}</div>
@@ -27,12 +27,23 @@ const SubListItem = (props) => {
                         <MoreHorizontal className="h-4 w-4"/>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuItem>
-                        <Edit className="mr-2 h-4 w-4"/> Edit
+                <DropdownMenuContent align="end"
+                className="rounded-md shadow-lg min-w-[14rem] bg-white text-gray-600 font-medium"
+                >
+                    <DropdownMenuItem 
+                    className="py-[0.6rem] text-base flex"
+                    >
+                        <Edit className="mr-2 h-4 w-4"/> <span> Rename</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <Trash className="mr-2 h-4 w-4"/> Delete
+                    <DropdownMenuItem 
+                    className="py-[0.6rem] text-base flex border-b-2"
+                    >
+                        <ArrowDownToLine className="mr-2 h-4 w-4"/><span>Download</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                    className="py-[0.6rem] text-base flex text-red-600"
+                    >
+                        <Trash2 className="mr-2 h-4 w-4"/><span> Delete</span>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
