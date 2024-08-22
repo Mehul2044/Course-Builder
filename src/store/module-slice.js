@@ -9,7 +9,7 @@ const list = [
         noOfItems: 2,
         items: [
             {id: uuidv4(), name: "Item 1", type: "link", url: "http://example.com/1"},
-            {id: uuidv4(), name: "Item 2", type: "file", url: "http://example.com/2"},
+            {id: uuidv4(), name: "Item 2", type: "pdf", url: "http://example.com/2"},
         ],
     },
     {
@@ -18,7 +18,7 @@ const list = [
         noOfItems: 3,
         items: [
             {id: uuidv4(), name: "Item 3", type: "link", url: "http://example.com/3"},
-            {id: uuidv4(), name: "Item 4", type: "file", url: "http://example.com/4"},
+            {id: uuidv4(), name: "Item 4", type: "pdf", url: "http://example.com/4"},
             {id: uuidv4(), name: "Item 5", type: "link", url: "http://example.com/5"},
         ],
     },
@@ -27,7 +27,7 @@ const list = [
         title: "Module 3",
         noOfItems: 2,
         items: [
-            {id: uuidv4(), name: "Item 6", type: "file", url: "http://example.com/6"},
+            {id: uuidv4(), name: "Item 6", type: "pdf", url: "http://example.com/6"},
             {id: uuidv4(), name: "Item 7", type: "link", url: "http://example.com/7"},
         ],
     },
