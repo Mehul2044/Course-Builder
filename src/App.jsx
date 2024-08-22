@@ -1,5 +1,5 @@
 import {Button} from "@/components/ui/button.jsx";
-// import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 // import {moduleActions} from "@/src/store/module-slice.js";
 
 function App() {
