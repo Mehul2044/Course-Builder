@@ -1,20 +1,15 @@
+import Navbar from "@/src/components/Navbar.jsx";
+import {useSelector} from "react-redux";
+import EmptyContent from "@/src/components/EmptyContent.jsx";
+import ModuleRender from "@/src/components/ModuleRender.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {useDispatch, useSelector} from "react-redux";
-// import {moduleActions} from "@/src/store/module-slice.js";
 
 function App() {
-    // const dispatch = useDispatch();
-    //
-    // const onClick = () => {
-    //     dispatch(moduleActions.addModule({title: "Module 10"}));
-    // }
-    // const data = useSelector(state => state.module.modules);
-    // console.log(data.length);
+    const data = useSelector(state => state.module.modules);
 
     return <>
-        <p className={"text-4xl"}>Hello World!</p>
-        <Button>Click Me</Button>
-        {/*<Button onClick={onClick}>Click Me</Button>*/}
+        <Navbar/>
+        {data.length === 0 ? <EmptyContent/> : <ModuleRender/>}
     </>
 }
 
