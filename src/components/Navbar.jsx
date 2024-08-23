@@ -11,6 +11,7 @@ export function Navbar() {
     return (
         <nav
             className={`flex items-center justify-between p-6 ${theme === 'dark' || theme === "system" ? 'bg-gray-900 text-white' : 'bg-gray-200 text-black'}`}>
+
             <div className="flex items-center w-full justify-around">
                 <div className="text-2xl font-bold tracking-wider">Course Builder</div>
                 <DropdownMenu onOpenChange={() => setIsDropdownOpen(!isDropdownOpen)}>
@@ -32,7 +33,6 @@ export function Navbar() {
                         </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
-
                         align="end"
                         className={`rounded-md shadow-lg min-w-[18rem] ${theme === 'dark' || theme === "system" ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'} font-medium`}>
                         <DropdownMenuItem
@@ -60,7 +60,7 @@ export function Navbar() {
                         variant="secondary"
                         size="icon"
                         className={`relative rounded-md transition-transform transform hover:scale-105 focus:outline-none 
-                        ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
+            ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
                         <Sun
                             className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"/>
                         <Moon
@@ -72,17 +72,18 @@ export function Navbar() {
                     align="end"
                     className={`rounded-md shadow-lg ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'}`}>
                     <DropdownMenuItem
-                        className={`hover:${theme === 'dark' ? 'bg-gray-600' : 'bg-gray-300'}`}
+                        className={`hover:${theme === 'dark' ? 'bg-gray-600' : 'bg-gray-300'} flex items-center gap-2`}
                         onClick={() => setTheme("light")}>
-                        Light
+                        <Sun className="h-4 w-4"/> Light
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        className={`hover:${theme === 'dark' ? 'bg-gray-600' : 'bg-gray-300'}`}
+                        className={`hover:${theme === 'dark' ? 'bg-gray-600' : 'bg-gray-300'} flex items-center gap-2`}
                         onClick={() => setTheme("dark")}>
-                        Dark
+                        <Moon className="h-4 w-4"/> Dark
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
+
         </nav>
     );
 }
