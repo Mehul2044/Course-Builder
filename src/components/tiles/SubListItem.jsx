@@ -58,6 +58,15 @@ const SubListItem = (props) => {
         window.open(props.item.url, "_blank");
     }
 
+    const downloadHandler = () => {
+        const link = document.createElement('a');
+        link.href = props.item.url;
+        link.setAttribute('download', props.item.name);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     return (
         <>
             <div ref={(node) => drag(ref(node))} style={{opacity: isDragging ? 0.5 : 1}}
@@ -87,8 +96,8 @@ const SubListItem = (props) => {
                             <Edit className="mr-2 h-4 w-4"/>
                             <span>{props.item.type === "link" ? "Edit" : "Rename"}</span>
                         </DropdownMenuItem>
-                        {props.item.type !== "link" && <DropdownMenuItem
-                            className="py-[0.6rem] text-base flex border-b-2">
+                        {props.item.type !== "link" && <DropdownMenuItem onClick={downloadHandler}
+                                                                         className="py-[0.6rem] text-base flex border-b-2">
                             <ArrowDownToLine className="mr-2 h-4 w-4"/><span>Download</span>
                         </DropdownMenuItem>}
                         <DropdownMenuItem onClick={deleteHandler}
