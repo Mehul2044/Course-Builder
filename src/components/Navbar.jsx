@@ -1,16 +1,33 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import {Moon, Sun, Plus, ChevronDown, ChevronUp, Rows3, Link, ArrowUpFromLine} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {useTheme} from "@/components/theme-provider";
 import ModuleModal from "@/src/components/modals/ModuleModal.jsx";
 import ItemModal from "@/src/components/modals/ItemModal.jsx";
+import {useDispatch} from "react-redux";
+import {moduleActions} from "@/src/store/module-slice.js";
 
 export function Navbar() {
     const {setTheme, theme} = useTheme();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAddUrlModalOpen, setIsAddUrlModalOpen] = useState(false);
+
+    const dispatch = useDispatch();
+    const fileInputRef = useRef(null);
+
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const fileType = file.name.endsWith(".pdf") ? "pdf" : "file";
+            dispatch(moduleActions.addItemNoModule({name: file.name, type: fileType, url: URL.createObjectURL(file)}));
+        }
+    };
+
+    const triggerFileInput = () => {
+        fileInputRef.current.click();
+    }
 
     return (
         <nav
@@ -49,9 +66,8 @@ export function Navbar() {
                             onClick={() => setIsAddUrlModalOpen(true)}>
                             <Link className='h-5 text-gray-500'/> <span>Add a link</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className={`hover:${theme === 'dark' ? 'bg-gray-600' : 'bg-gray-300'} py-[0.6rem] text-base flex gap-2`}
-                            onClick={() => alert("Add Module")}>
+                        <DropdownMenuItem onClick={triggerFileInput}
+                                          className={`hover:${theme === 'dark' ? 'bg-gray-600' : 'bg-gray-300'} py-[0.6rem] text-base flex gap-2`}>
                             <ArrowUpFromLine className='h-5 text-gray-500'/> <span>Upload</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -90,6 +106,13 @@ export function Navbar() {
 
             {isModalOpen && <ModuleModal onClose={() => setIsModalOpen(false)} type={"add"}/>}
             {isAddUrlModalOpen && <ItemModal onClose={() => setIsAddUrlModalOpen(false)} type={"addlink"}/>}
+
+            <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                style={{display: 'none'}}
+            />
 
         </nav>
     );

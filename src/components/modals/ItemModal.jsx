@@ -3,11 +3,13 @@ import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {moduleActions} from "@/src/store/module-slice.js";
 import PropTypes from "prop-types";
+import {useTheme} from "@/components/theme-provider.jsx";
 
 function ItemModal(props) {
     const [inputValue, setInputValue] = useState("");
     const [url, setUrl] = useState("");
     const dispatch = useDispatch();
+    const {theme} = useTheme();
 
     const handleAddLink = () => {
         if (inputValue.length === 0 || url.length === 0) {
@@ -63,7 +65,7 @@ function ItemModal(props) {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="mt-4">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className={`block text-sm font-medium`}>
                         {props.type === "addlink" && "Display Name"}
                         {props.type === "editlink" && "Display Name"}
                         {props.type === "renameFile" && "File Name"}
@@ -72,17 +74,17 @@ function ItemModal(props) {
                         type="text"
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
                     />
                 </div>
                 {(props.type === "addlink" || props.type === "editlink") && (
                     <div className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700">URL</label>
+                        <label className="block text-sm font-medium">URL</label>
                         <input
                             type="text"
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"/>
                     </div>
                 )}
                 <div className="mt-4 flex justify-end space-x-2">

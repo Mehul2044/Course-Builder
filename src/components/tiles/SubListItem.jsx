@@ -32,12 +32,16 @@ const SubListItem = (props) => {
         }
     };
 
+    const clickHandler = () => {
+        window.open(props.item.url, "_blank");
+    }
+
     return (
         <>
             <div
-                className={props.moduleId ? "flex gap-3 items-center py-4 ml-14 border-b last:border-0" : "flex gap-3 items-center py-4 px-4 border shadow-lg w-4/5 mx-auto rounded-lg my-4"}>
+                 className={props.moduleId ? "flex gap-3 items-center py-4 ml-14 border-b last:border-0" : "flex gap-3 items-center py-4 px-4 border shadow-lg w-4/5 mx-auto rounded-lg my-4"}>
                 {getIcon(props.item.type)}
-                <div className="flex-1">
+                <div className="flex-1" onClick={clickHandler}>
                     <div className="text-sm font-medium">{props.item.name}</div>
                     <div className="text-xs text-muted-foreground">{props.item.type.toUpperCase()}</div>
                 </div>
@@ -88,7 +92,8 @@ SubListItem.propTypes = {
     item: PropTypes.shape({
         type: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
     }).isRequired,
     moduleId: PropTypes.string,
 };
