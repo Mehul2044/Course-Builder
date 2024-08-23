@@ -34,84 +34,103 @@ const list = [
 ]
 
 const moduleSlice = createSlice({
-    name: "module",
-    initialState: {modules: list},
-    reducers: {
-        addModule: (state, action) => {
-            const newModule = {
-                id: uuidv4(),
-                title: action.payload.title,
-                noOfItems: 0,
-                items: [],
-            };
-            state.modules.push(newModule);
-        },
-        updateModule: (state, action) => {
-            const {id, title} = action.payload;
-            const existingModule = state.modules.find(module => module.id === id);
-            if (existingModule) {
-                existingModule.title = title;
-            }
-        },
-        removeModule: (state, action) => {
-            state.modules = state.modules.filter(module => module.id !== action.payload.id);
-        },
-        addItem: (state, action) => {
-            const {moduleId, name, type, url} = action.payload;
-            const module = state.modules.find(module => module.id === moduleId);
-            if (module) {
+        name: "module",
+        initialState: {modules: list, unassignedItems: []},
+        reducers: {
+            addModule: (state, action) => {
+                const newModule = {
+                    id: uuidv4(),
+                    title: action.payload.title,
+                    noOfItems: 0,
+                    items: [],
+                };
+                state.modules.push(newModule);
+            },
+            updateModule: (state, action) => {
+                const {id, title} = action.payload;
+                const existingModule = state.modules.find(module => module.id === id);
+                if (existingModule) {
+                    existingModule.title = title;
+                }
+            },
+            removeModule: (state, action) => {
+                state.modules = state.modules.filter(module => module.id !== action.payload.id);
+            },
+            addItem: (state, action) => {
+                const {moduleId, name, type, url} = action.payload;
+                const module = state.modules.find(module => module.id === moduleId);
+                if (module) {
+                    const newItem = {
+                        id: uuidv4(),
+                        name,
+                        type,
+                        url,
+                    };
+                    module.items.push(newItem);
+                    module.noOfItems += 1;
+                }
+            },
+            addItemNoModule: (state, action) => {
+                const {name, type, url} = action.payload;
                 const newItem = {
                     id: uuidv4(),
                     name,
                     type,
                     url,
                 };
-                module.items.push(newItem);
-                module.noOfItems += 1;
-            }
-        },
-        addItemNoModule: (state, action) => {
-            const {name, type, url} = action.payload;
-            const module = state.modules[0];
-            if (module) {
-                const newItem = {
-                    id: uuidv4(),
-                    name,
-                    type,
-                    url,
-                };
-                module.items.push(newItem);
-                module.noOfItems += 1;
-            }
-        },
-        updateItem: (state, action) => {
-            const {moduleId, itemId, name, type, url} = action.payload;
-            const module = state.modules.find(module => module.id === moduleId);
-            if (module) {
-                const existingItem = module.items.find(item => item.id === itemId);
-                if (existingItem) {
-                    if (name !== null && name !== undefined) {
-                        existingItem.name = name;
-                    }
-                    if (type !== null && type !== undefined) {
-                        existingItem.type = type;
-                    }
-                    if (url !== null && url !== undefined) {
-                        existingItem.url = url;
+                state.unassignedItems.push(newItem);
+            },
+            updateItem: (state, action) => {
+                const {moduleId, itemId, name, type, url} = action.payload;
+                let itemFound = false;
+                if (moduleId) {
+                    const module = state.modules.find(module => module.id === moduleId);
+                    if (module) {
+                        const existingItem = module.items.find(item => item.id === itemId);
+                        if (existingItem) {
+                            if (name !== null && name !== undefined) {
+                                existingItem.name = name;
+                            }
+                            if (type !== null && type !== undefined) {
+                                existingItem.type = type;
+                            }
+                            if (url !== null && url !== undefined) {
+                                existingItem.url = url;
+                            }
+                            itemFound = true;
+                        }
                     }
                 }
-            }
+                if (!itemFound) {
+                    const existingItem = state.unassignedItems.find(item => item.id === itemId);
+                    if (existingItem) {
+                        if (name !== null && name !== undefined) {
+                            existingItem.name = name;
+                        }
+                        if (type !== null && type !== undefined) {
+                            existingItem.type = type;
+                        }
+                        if (url !== null && url !== undefined) {
+                            existingItem.url = url;
+                        }
+                    }
+                }
+            },
+            removeItem: (state, action) => {
+                const {moduleId, itemId} = action.payload;
+                if (moduleId) {
+                    const module = state.modules.find(module => module.id === moduleId);
+                    if (module) {
+                        module.items = module.items.filter(item => item.id !== itemId);
+                        module.noOfItems -= 1;
+                    }
+                } else {
+                    state.unassignedItems = state.unassignedItems.filter(item => item.id !== itemId);
+                }
+            },
         },
-        removeItem: (state, action) => {
-            const {moduleId, itemId} = action.payload;
-            const module = state.modules.find(module => module.id === moduleId);
-            if (module) {
-                module.items = module.items.filter(item => item.id !== itemId);
-                module.noOfItems -= 1;
-            }
-        },
-    },
-});
+    })
+;
 
 export const moduleActions = moduleSlice.actions;
 export default moduleSlice;

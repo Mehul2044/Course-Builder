@@ -34,7 +34,8 @@ const SubListItem = (props) => {
 
     return (
         <>
-            <div className="flex gap-3  items-center py-4 ml-14 border-b last:border-0">
+            <div
+                className={props.moduleId ? "flex gap-3 items-center py-4 ml-14 border-b last:border-0" : "flex gap-3 items-center py-4 px-4 border shadow-lg w-4/5 mx-auto rounded-lg my-4"}>
                 {getIcon(props.item.type)}
                 <div className="flex-1">
                     <div className="text-sm font-medium">{props.item.name}</div>
@@ -65,7 +66,7 @@ const SubListItem = (props) => {
                             <ArrowDownToLine className="mr-2 h-4 w-4"/><span>Download</span>
                         </DropdownMenuItem>}
                         <DropdownMenuItem onClick={deleteHandler}
-                            className="py-[0.6rem] text-base flex text-red-600">
+                                          className="py-[0.6rem] text-base flex text-red-600">
                             <Trash2 className="mr-2 h-4 w-4"/><span> Delete</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -89,7 +90,7 @@ SubListItem.propTypes = {
         name: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired
     }).isRequired,
-    moduleId: PropTypes.string.isRequired,
+    moduleId: PropTypes.string,
 };
 
 export default SubListItem;
