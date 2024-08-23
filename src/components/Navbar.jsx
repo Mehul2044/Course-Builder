@@ -3,10 +3,12 @@ import {Moon, Sun, Plus, ChevronDown, ChevronUp, Rows3, Link, ArrowUpFromLine} f
 import {Button} from "@/components/ui/button";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {useTheme} from "@/components/theme-provider";
+import ModuleModal from "@/src/components/modals/ModuleModal.jsx";
 
 export function Navbar() {
     const {setTheme, theme} = useTheme();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <nav
@@ -37,7 +39,7 @@ export function Navbar() {
                         className={`rounded-md shadow-lg min-w-[18rem] ${theme === 'dark' || theme === "system" ? 'bg-gray-700 text-white' : 'bg-gray-200 text-black'} font-medium`}>
                         <DropdownMenuItem
                             className={`hover:${theme === 'dark' ? 'bg-gray-600' : 'bg-gray-300'} py-[0.6rem] text-base flex gap-2`}
-                            onClick={() => alert("Add Module")}>
+                            onClick={() => setIsModalOpen(true)}>
                             <Rows3 className='h-5 text-gray-500'/> <span>Create module </span>
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -83,6 +85,8 @@ export function Navbar() {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
+
+            {isModalOpen && <ModuleModal onClose={() => setIsModalOpen(false)} type={"add"}/>}
 
         </nav>
     );
