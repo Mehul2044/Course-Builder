@@ -9,10 +9,17 @@ import {
 } from "@/components/ui/dropdown-menu.jsx";
 import {useState} from "react";
 import ItemModal from "@/src/components/modals/ItemModal.jsx";
+import {useDispatch} from "react-redux";
+import {moduleActions} from "@/src/store/module-slice.js";
 
 const SubListItem = (props) => {
     const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const dispatch = useDispatch();
+
+    const deleteHandler = () => {
+        dispatch(moduleActions.removeItem({moduleId: props.moduleId, itemId: props.item.id}));
+    }
 
     const getIcon = (type) => {
         switch (type) {
@@ -57,7 +64,7 @@ const SubListItem = (props) => {
                             className="py-[0.6rem] text-base flex border-b-2">
                             <ArrowDownToLine className="mr-2 h-4 w-4"/><span>Download</span>
                         </DropdownMenuItem>}
-                        <DropdownMenuItem
+                        <DropdownMenuItem onClick={deleteHandler}
                             className="py-[0.6rem] text-base flex text-red-600">
                             <Trash2 className="mr-2 h-4 w-4"/><span> Delete</span>
                         </DropdownMenuItem>
