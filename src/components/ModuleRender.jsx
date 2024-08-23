@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import ListTile from "@/src/components/ListTile.jsx";
 
 function ModuleRender() {
@@ -7,7 +7,7 @@ function ModuleRender() {
     return (
         <div>
             {modules.map(module => (
-                <ListTile key={module.id} module={module} />
+                <ListTile key={module.id} module={module}/>
             ))}
         </div>
     );
