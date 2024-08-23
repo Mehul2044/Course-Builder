@@ -67,6 +67,7 @@ function ModuleModal(props) {
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Edit Module</DialogTitle>
+                        <DialogDescription>Edit the module name.</DialogDescription>
                     </DialogHeader>
                     <div className="mt-4">
                         <label className="block text-sm font-medium text-gray-700">Module Name</label>
@@ -84,7 +85,7 @@ function ModuleModal(props) {
                         </button>
                         <button onClick={editModuleHandler}
                                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                            Create
+                            Edit
                         </button>
                     </div>
                 </DialogContent>

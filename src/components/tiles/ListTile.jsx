@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import {useState} from "react";
-import {Button} from "@/components/ui/button";
-import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem} from "@/components/ui/dropdown-menu";
+import {Button} from "@/components/ui/button.jsx";
+import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem} from "@/components/ui/dropdown-menu.jsx";
 import {MoreHorizontal, ChevronDown, PencilLine, Trash2, ChevronUp} from "lucide-react";
-import SubListItem from "@/src/components/SubListItem.jsx";
+import SubListItem from "@/src/components/tiles/SubListItem.jsx";
 import ModuleModal from "@/src/components/modals/ModuleModal.jsx";
 import {moduleActions} from "@/src/store/module-slice.js";
 import {useDispatch} from "react-redux";
@@ -68,7 +68,7 @@ const ListTile = (props) => {
                 {isSubListVisible && (
                     <div className="mt-4">
                         {props.module.items.map((item) => (
-                            <SubListItem key={item.id} item={item}/>
+                            <SubListItem key={item.id} item={item} moduleId={props.module.id}/>
                         ))}
                     </div>
                 )}

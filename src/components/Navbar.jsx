@@ -4,11 +4,13 @@ import {Button} from "@/components/ui/button";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {useTheme} from "@/components/theme-provider";
 import ModuleModal from "@/src/components/modals/ModuleModal.jsx";
+import ItemModal from "@/src/components/modals/ItemModal.jsx";
 
 export function Navbar() {
     const {setTheme, theme} = useTheme();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAddUrlModalOpen, setIsAddUrlModalOpen] = useState(false);
 
     return (
         <nav
@@ -44,7 +46,7 @@ export function Navbar() {
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             className={`hover:${theme === 'dark' ? 'bg-gray-600' : 'bg-gray-300'} py-[0.6rem] text-base flex gap-2`}
-                            onClick={() => alert("Add Module")}>
+                            onClick={() => setIsAddUrlModalOpen(true)}>
                             <Link className='h-5 text-gray-500'/> <span>Add a link</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -87,6 +89,7 @@ export function Navbar() {
             </DropdownMenu>
 
             {isModalOpen && <ModuleModal onClose={() => setIsModalOpen(false)} type={"add"}/>}
+            {isAddUrlModalOpen && <ItemModal onClose={() => setIsAddUrlModalOpen(false)} type={"addlink"}/>}
 
         </nav>
     );

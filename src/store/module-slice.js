@@ -70,15 +70,35 @@ const moduleSlice = createSlice({
                 module.noOfItems += 1;
             }
         },
+        addItemNoModule: (state, action) => {
+            const {name, type, url} = action.payload;
+            const module = state.modules[0];
+            if (module) {
+                const newItem = {
+                    id: uuidv4(),
+                    name,
+                    type,
+                    url,
+                };
+                module.items.push(newItem);
+                module.noOfItems += 1;
+            }
+        },
         updateItem: (state, action) => {
             const {moduleId, itemId, name, type, url} = action.payload;
             const module = state.modules.find(module => module.id === moduleId);
             if (module) {
                 const existingItem = module.items.find(item => item.id === itemId);
                 if (existingItem) {
-                    existingItem.name = name;
-                    existingItem.type = type;
-                    existingItem.url = url;
+                    if (name !== null && name !== undefined) {
+                        existingItem.name = name;
+                    }
+                    if (type !== null && type !== undefined) {
+                        existingItem.type = type;
+                    }
+                    if (url !== null && url !== undefined) {
+                        existingItem.url = url;
+                    }
                 }
             }
         },
