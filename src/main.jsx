@@ -11,7 +11,7 @@ import {HTML5Backend} from "react-dnd-html5-backend";
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <DndProvider backend={HTML5Backend}>
-            <ThemeProvider defaultTheme={"dark"} storageKey={"vite-ui-theme"}>
+            <ThemeProvider defaultTheme={"light"} storageKey={"vite-ui-theme"}>
             <Provider store={store}>
                 <App/>
             </Provider>
