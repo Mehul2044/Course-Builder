@@ -128,6 +128,43 @@ const moduleSlice = createSlice({
                     state.unassignedItems = state.unassignedItems.filter(item => item.id !== itemId);
                 }
             },
+            moveItemExternal: (state, action) => {
+                const {fromModuleId, toModuleId, itemId} = action.payload;
+                const fromModule = state.modules.find(module => module.id === fromModuleId);
+                const toModule = state.modules.find(module => module.id === toModuleId);
+                if (fromModule) {
+                    const item = fromModule.items.find(item => item.id === itemId);
+                    if (item) {
+                        fromModule.items = fromModule.items.filter(item => item.id !== itemId);
+                        fromModule.noOfItems -= 1;
+                        toModule.items.push(item);
+                        toModule.noOfItems += 1;
+                    }
+                } else {
+                    const item = state.unassignedItems.find(item => item.id === itemId);
+                    if (item) {
+                        state.unassignedItems = state.unassignedItems.filter(item => item.id !== itemId);
+                        toModule.items.push(item);
+                        toModule.noOfItems += 1;
+                    }
+                }
+            },
+            moveItemInternal: (state, action) => {
+                const { moduleId, itemId, targetItemId } = action.payload;
+                const module = state.modules.find(module => module.id === moduleId);
+                if (module) {
+                    const itemIndex = module.items.findIndex(item => item.id === itemId);
+                    const targetIndex = module.items.findIndex(item => item.id === targetItemId);
+                    if (itemIndex !== -1 && targetIndex !== -1) {
+                        const [movedItem] = module.items.splice(itemIndex, 1);
+                        if (itemIndex < targetIndex) {
+                            module.items.splice(targetIndex, 0, movedItem);
+                        } else {
+                            module.items.splice(targetIndex, 0, movedItem);
+                        }
+                    }
+                }
+            }
         },
     })
 ;

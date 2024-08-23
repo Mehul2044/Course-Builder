@@ -1,14 +1,33 @@
 import PropTypes from "prop-types";
 import {useState} from "react";
 import {Button} from "@/components/ui/button.jsx";
-import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem} from "@/components/ui/dropdown-menu.jsx";
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem
+} from "@/components/ui/dropdown-menu.jsx";
 import {MoreHorizontal, ChevronDown, PencilLine, Trash2, ChevronUp} from "lucide-react";
 import SubListItem from "@/src/components/tiles/SubListItem.jsx";
 import ModuleModal from "@/src/components/modals/ModuleModal.jsx";
 import {moduleActions} from "@/src/store/module-slice.js";
 import {useDispatch} from "react-redux";
+import {useDrop} from "react-dnd";
 
 const ListTile = (props) => {
+    const [, drop] = useDrop({
+        accept: 'ITEM',
+        drop: (item) => {
+            if (item.moduleId !== props.module.id) {
+                dispatch(moduleActions.moveItemExternal({
+                    fromModuleId: item.moduleId,
+                    toModuleId: props.module.id,
+                    itemId: item.id
+                }));
+            }
+        },
+    });
+
     const [isSubListVisible, setIsSubListVisible] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const dispatch = useDispatch();
@@ -26,7 +45,7 @@ const ListTile = (props) => {
 
     return (
         <>
-            <div className="flex flex-col p-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4">
+            <div ref={drop} className="flex flex-col p-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4">
                 <div className="flex items-center justify-between"
                      onClick={() => setIsSubListVisible(!isSubListVisible)}>
                     <Button

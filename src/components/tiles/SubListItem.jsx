@@ -11,8 +11,30 @@ import {useState} from "react";
 import ItemModal from "@/src/components/modals/ItemModal.jsx";
 import {useDispatch} from "react-redux";
 import {moduleActions} from "@/src/store/module-slice.js";
+import {useDrag, useDrop} from "react-dnd";
 
 const SubListItem = (props) => {
+    const [{isDragging}, drag] = useDrag({
+        type: 'ITEM',
+        item: {id: props.item.id, moduleId: props.moduleId},
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+        }),
+    });
+
+    const [, ref] = useDrop({
+        accept: 'ITEM',
+        hover: (draggedItem) => {
+            if (draggedItem.id !== props.item.id) {
+                dispatch(moduleActions.moveItemInternal({
+                    moduleId: props.moduleId,
+                    itemId: draggedItem.id,
+                    targetItemId: props.item.id
+                }));
+            }
+        },
+    });
+
     const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const dispatch = useDispatch();
@@ -38,7 +60,7 @@ const SubListItem = (props) => {
 
     return (
         <>
-            <div
+            <div ref={(node) => drag(ref(node))} style={{opacity: isDragging ? 0.5 : 1}}
                  className={props.moduleId ? "flex gap-3 items-center py-4 ml-14 border-b last:border-0" : "flex gap-3 items-center py-4 px-4 border shadow-lg w-4/5 mx-auto rounded-lg my-4"}>
                 {getIcon(props.item.type)}
                 <div className="flex-1" onClick={clickHandler}>
