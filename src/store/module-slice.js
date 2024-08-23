@@ -164,6 +164,15 @@ const moduleSlice = createSlice({
                         }
                     }
                 }
+            },
+            moveModule: (state, action) => {
+                const { moduleId, targetModuleId } = action.payload;
+                const moduleIndex = state.modules.findIndex(module => module.id === moduleId);
+                const targetIndex = state.modules.findIndex(module => module.id === targetModuleId);
+                if (moduleIndex !== -1 && targetIndex !== -1) {
+                    const [movedModule] = state.modules.splice(moduleIndex, 1);
+                    state.modules.splice(targetIndex, 0, movedModule);
+                }
             }
         },
     })

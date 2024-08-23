@@ -12,17 +12,38 @@ import SubListItem from "@/src/components/tiles/SubListItem.jsx";
 import ModuleModal from "@/src/components/modals/ModuleModal.jsx";
 import {moduleActions} from "@/src/store/module-slice.js";
 import {useDispatch} from "react-redux";
-import {useDrop} from "react-dnd";
+import {useDrag, useDrop} from "react-dnd";
 
 const ListTile = (props) => {
+    const [{isDragging}, drag] = useDrag({
+        type: 'MODULE',
+        item: {id: props.module.id},
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+        }),
+    });
+
     const [, drop] = useDrop({
-        accept: 'ITEM',
-        drop: (item) => {
-            if (item.moduleId !== props.module.id) {
+        accept: ['ITEM', 'MODULE'],
+        drop: (droppedItem, monitor) => {
+            if (monitor.getItemType() === 'ITEM') {
+                if (droppedItem.moduleId === props.module.id) {
+                    dispatch(moduleActions.moveItemInternal({
+                        moduleId: props.module.id,
+                        itemId: droppedItem.id,
+                        targetItemId: null
+                    }));
+                    return;
+                }
                 dispatch(moduleActions.moveItemExternal({
-                    fromModuleId: item.moduleId,
+                    fromModuleId: droppedItem.moduleId,
                     toModuleId: props.module.id,
-                    itemId: item.id
+                    itemId: droppedItem.id
+                }));
+            } else if (monitor.getItemType() === 'MODULE') {
+                dispatch(moduleActions.moveModule({
+                    moduleId: droppedItem.id,
+                    targetModuleId: props.module.id,
                 }));
             }
         },
@@ -33,7 +54,7 @@ const ListTile = (props) => {
     const dispatch = useDispatch();
 
     const data = {
-        leadingButton: isSubListVisible ? <ChevronDown/> : <ChevronUp/>,
+        leadingButton: isSubListVisible ? <ChevronUp/> : <ChevronDown/>,
         title: props.module.title,
         subtitle:
             props.module.noOfItems === 0
@@ -45,7 +66,8 @@ const ListTile = (props) => {
 
     return (
         <>
-            <div ref={drop} className="flex flex-col p-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4">
+            <div ref={(node) => drag(drop(node))} style={{opacity: isDragging ? 0.5 : 1}}
+                 className="flex flex-col p-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4">
                 <div className="flex items-center justify-between"
                      onClick={() => setIsSubListVisible(!isSubListVisible)}>
                     <Button
