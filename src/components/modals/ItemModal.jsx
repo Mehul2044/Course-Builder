@@ -115,7 +115,7 @@ ItemModal.propTypes = {
     onClose: PropTypes.func.isRequired,
     itemId: PropTypes.string,
     moduleId: PropTypes.string,
-    itemName: PropTypes.string.isRequired,
+    itemName: PropTypes.string,
     itemUrl: PropTypes.string,
 };
 

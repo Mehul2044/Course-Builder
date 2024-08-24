@@ -100,7 +100,7 @@ ModuleModal.propTypes = {
     type: PropTypes.oneOf(["add", "edit"]).isRequired,
     onClose: PropTypes.func.isRequired,
     moduleId: PropTypes.string,
-    moduleName: PropTypes.string.isRequired,
+    moduleName: PropTypes.string,
 };
 
 export default ModuleModal;
