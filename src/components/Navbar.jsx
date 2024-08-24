@@ -31,7 +31,7 @@ export function Navbar() {
 
     return (
         <nav
-            className={`flex items-center justify-between p-6 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-200 text-black'}`}>
+            className={`flex items-center justify-between p-6 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
 
             <div className="flex items-center w-full justify-around">
                 <div className="text-2xl font-bold tracking-wider">Course Builder</div>

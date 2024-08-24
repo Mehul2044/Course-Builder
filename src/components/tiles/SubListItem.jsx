@@ -88,7 +88,7 @@ const SubListItem = (props) => {
 
     return (
         <>
-            <div ref={(node) => drag(ref(node))} style={{opacity: isDragging ? 0.5 : 1}}
+            <div ref={(node) => drag(ref(node))} style={{opacity: isDragging ? 0 : 1}}
                  onMouseEnter={() => setIsHovered(true)}
                  onMouseLeave={() => setIsHovered(false)}
                  className={`${props.moduleId ? `flex gap-3 items-center py-4 ${isHovered ? "ml-4" : "ml-14"} border-b last:border-0` : `flex gap-3 items-center py-4 px-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4 relative`} ${isOver ? "border-blue-500 border-2" : ""}`}>

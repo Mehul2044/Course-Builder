@@ -21,6 +21,8 @@ const ListTile = (props) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
+    const {theme} = useTheme();
+
     const [{isDragging}, drag] = useDrag({
         type: 'MODULE',
         item: {id: props.module.id},
@@ -59,7 +61,6 @@ const ListTile = (props) => {
     });
 
     const dispatch = useDispatch();
-    const {theme} = useTheme();
 
     const data = {
         leadingButton: isSubListVisible ? <ChevronUp/> : <ChevronDown/>,
@@ -74,7 +75,7 @@ const ListTile = (props) => {
 
     return (
         <>
-            <div ref={(node) => drag(drop(node))} style={{opacity: isDragging ? 0.5 : 1}}
+            <div ref={(node) => drag(drop(node))} style={{opacity: isDragging ? 0 : 1}}
                  className={`flex flex-col p-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4 ${isOver ? "border-blue-500 border-2" : ""}`}>
                 <div className="flex items-center justify-between cursor-pointer relative"
                      onMouseEnter={() => setIsHovered(true)}
