@@ -3,13 +3,11 @@ import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {moduleActions} from "@/src/store/module-slice.js";
 import PropTypes from "prop-types";
-import {useTheme} from "@/components/theme-provider.jsx";
 
 function ItemModal(props) {
     const [inputValue, setInputValue] = useState("");
     const [url, setUrl] = useState("");
     const dispatch = useDispatch();
-    const {theme} = useTheme();
 
     const handleAddLink = () => {
         if (inputValue.length === 0 || url.length === 0) {
@@ -23,8 +21,8 @@ function ItemModal(props) {
     };
 
     const handleEditLink = () => {
-        if (inputValue.length === 0 || url.length === 0) {
-            alert("All fields are required");
+        if (inputValue.length === 0 && url.length === 0) {
+            alert("No changes made!");
             return;
         }
         setInputValue("");
@@ -73,6 +71,7 @@ function ItemModal(props) {
                     <input
                         type="text"
                         value={inputValue}
+                        placeholder={props.itemName}
                         onChange={(e) => setInputValue(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
                     />
@@ -83,6 +82,7 @@ function ItemModal(props) {
                         <input
                             type="text"
                             value={url}
+                            placeholder={props.itemUrl}
                             onChange={(e) => setUrl(e.target.value)}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"/>
                     </div>
@@ -115,6 +115,8 @@ ItemModal.propTypes = {
     onClose: PropTypes.func.isRequired,
     itemId: PropTypes.string,
     moduleId: PropTypes.string,
+    itemName: PropTypes.string.isRequired,
+    itemUrl: PropTypes.string,
 };
 
 export default ItemModal;

@@ -116,7 +116,8 @@ const ListTile = (props) => {
             </div>
 
             {isEditModalOpen &&
-                <ModuleModal onClose={() => setIsEditModalOpen(false)} type={"edit"} moduleId={props.module.id}/>}
+                <ModuleModal onClose={() => setIsEditModalOpen(false)} type={"edit"} moduleId={props.module.id}
+                             moduleName={props.module.title}/>}
 
         </>
     );

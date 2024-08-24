@@ -110,10 +110,10 @@ const SubListItem = (props) => {
 
             {isRenameModalOpen &&
                 <ItemModal onClose={() => setIsRenameModalOpen(false)} type={"renameFile"} itemId={props.item.id}
-                           moduleId={props.moduleId}/>}
+                           moduleId={props.moduleId} itemName={props.item.name}/>}
             {isEditModalOpen &&
                 <ItemModal onClose={() => setIsEditModalOpen(false)} type={"editlink"} itemId={props.item.id}
-                           moduleId={props.moduleId}/>}
+                           moduleId={props.moduleId} itemName={props.item.name} itemUrl={props.item.url}/>}
 
         </>
     );

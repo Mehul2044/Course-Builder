@@ -56,20 +56,6 @@ const moduleSlice = createSlice({
             removeModule: (state, action) => {
                 state.modules = state.modules.filter(module => module.id !== action.payload.id);
             },
-            addItem: (state, action) => {
-                const {moduleId, name, type, url} = action.payload;
-                const module = state.modules.find(module => module.id === moduleId);
-                if (module) {
-                    const newItem = {
-                        id: uuidv4(),
-                        name,
-                        type,
-                        url,
-                    };
-                    module.items.push(newItem);
-                    module.noOfItems += 1;
-                }
-            },
             addItemNoModule: (state, action) => {
                 const {name, type, url} = action.payload;
                 const newItem = {
@@ -88,13 +74,13 @@ const moduleSlice = createSlice({
                     if (module) {
                         const existingItem = module.items.find(item => item.id === itemId);
                         if (existingItem) {
-                            if (name !== null && name !== undefined) {
+                            if (name !== null && name !== undefined && name.length !== 0) {
                                 existingItem.name = name;
                             }
-                            if (type !== null && type !== undefined) {
+                            if (type !== null && type !== undefined && type.length !== 0) {
                                 existingItem.type = type;
                             }
-                            if (url !== null && url !== undefined) {
+                            if (url !== null && url !== undefined && url.length !== 0) {
                                 existingItem.url = url;
                             }
                             itemFound = true;
@@ -104,13 +90,13 @@ const moduleSlice = createSlice({
                 if (!itemFound) {
                     const existingItem = state.unassignedItems.find(item => item.id === itemId);
                     if (existingItem) {
-                        if (name !== null && name !== undefined) {
+                        if (name !== null && name !== undefined && name.length !== 0) {
                             existingItem.name = name;
                         }
-                        if (type !== null && type !== undefined) {
+                        if (type !== null && type !== undefined && type.length !== 0) {
                             existingItem.type = type;
                         }
-                        if (url !== null && url !== undefined) {
+                        if (url !== null && url !== undefined && url.length !== 0) {
                             existingItem.url = url;
                         }
                     }
