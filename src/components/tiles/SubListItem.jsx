@@ -46,11 +46,23 @@ const SubListItem = (props) => {
     const getIcon = (type) => {
         switch (type) {
             case "pdf":
-                return <FileText className="mr-2 h-4 w-4"/>;
+                return (
+                    <div className="bg-red-100 p-1 rounded flex items-center justify-center">
+                        <FileText className="h-4 w-4 text-red-500"/>
+                    </div>
+                );
             case "link":
-                return <Link className="mr-2 h-4 w-4"/>;
+                return (
+                    <div className="bg-blue-100 p-1 rounded flex items-center justify-center">
+                        <Link className="h-4 w-4 text-blue-500"/>
+                    </div>
+                );
             default:
-                return <File className="mr-2 h-4 w-4"/>;
+                return (
+                    <div className="bg-green-100 p-1 rounded flex items-center justify-center">
+                        <File className="h-4 w-4 text-green-500"/>
+                    </div>
+                );
         }
     };
 
