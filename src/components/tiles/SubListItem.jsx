@@ -12,8 +12,13 @@ import {useDispatch} from "react-redux";
 import {moduleActions} from "@/src/store/module-slice.js";
 import {useDrag, useDrop} from "react-dnd";
 import {useTheme} from "@/components/theme-provider.jsx";
+import HoverIcon from "@/src/assets/HoverIcon.jsx";
 
 const SubListItem = (props) => {
+    const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+
     const [{isDragging}, drag] = useDrag({
         type: 'ITEM',
         item: {id: props.item.id, moduleId: props.moduleId},
@@ -22,9 +27,9 @@ const SubListItem = (props) => {
         }),
     });
 
-    const [, ref] = useDrop({
+    const [{isOver}, ref] = useDrop({
         accept: 'ITEM',
-        hover: (draggedItem) => {
+        drop: (draggedItem) => {
             if (draggedItem.id !== props.item.id) {
                 dispatch(moduleActions.moveItemInternal({
                     moduleId: props.moduleId,
@@ -33,10 +38,11 @@ const SubListItem = (props) => {
                 }));
             }
         },
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+        }),
     });
 
-    const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const dispatch = useDispatch();
     const {theme} = useTheme();
 
@@ -83,7 +89,10 @@ const SubListItem = (props) => {
     return (
         <>
             <div ref={(node) => drag(ref(node))} style={{opacity: isDragging ? 0.5 : 1}}
-                 className={props.moduleId ? "flex gap-3 items-center py-4 ml-14 border-b last:border-0" : "flex gap-3 items-center py-4 px-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4"}>
+                 onMouseEnter={() => setIsHovered(true)}
+                 onMouseLeave={() => setIsHovered(false)}
+                 className={`${props.moduleId ? `flex gap-3 items-center py-4 ${isHovered ? "ml-4" : "ml-14"} border-b last:border-0` : `flex gap-3 items-center py-4 px-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4 relative`} ${isOver ? "border-blue-500 border-2" : ""}`}>
+                {isHovered && <div className={`${!props.moduleId && "absolute -left-10"}`}><HoverIcon/></div>}
                 {getIcon(props.item.type)}
                 <div className="flex-1 cursor-pointer" onClick={clickHandler}>
                     <div className="text-sm font-medium">{props.item.name}</div>
@@ -121,6 +130,7 @@ const SubListItem = (props) => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
+            <div></div>
 
             {isRenameModalOpen &&
                 <ItemModal onClose={() => setIsRenameModalOpen(false)} type={"renameFile"} itemId={props.item.id}
@@ -132,6 +142,7 @@ const SubListItem = (props) => {
         </>
     );
 };
+
 
 SubListItem.propTypes = {
     item: PropTypes.shape({

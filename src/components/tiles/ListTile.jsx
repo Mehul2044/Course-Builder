@@ -14,8 +14,13 @@ import {moduleActions} from "@/src/store/module-slice.js";
 import {useDispatch} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
 import {useTheme} from "@/components/theme-provider.jsx";
+import HoverIcon from "@/src/assets/HoverIcon.jsx";
 
 const ListTile = (props) => {
+    const [isSubListVisible, setIsSubListVisible] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+
     const [{isDragging}, drag] = useDrag({
         type: 'MODULE',
         item: {id: props.module.id},
@@ -24,7 +29,7 @@ const ListTile = (props) => {
         }),
     });
 
-    const [, drop] = useDrop({
+    const [{isOver}, drop] = useDrop({
         accept: ['ITEM', 'MODULE'],
         drop: (droppedItem, monitor) => {
             if (monitor.getItemType() === 'ITEM') {
@@ -48,10 +53,11 @@ const ListTile = (props) => {
                 }));
             }
         },
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+        })
     });
 
-    const [isSubListVisible, setIsSubListVisible] = useState(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const dispatch = useDispatch();
     const {theme} = useTheme();
 
@@ -69,8 +75,10 @@ const ListTile = (props) => {
     return (
         <>
             <div ref={(node) => drag(drop(node))} style={{opacity: isDragging ? 0.5 : 1}}
-                 className="flex flex-col p-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4">
-                <div className="flex items-center justify-between cursor-pointer"
+                 className={`flex flex-col p-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4 ${isOver ? "border-blue-500 border-2" : ""}`}>
+                <div className="flex items-center justify-between cursor-pointer relative"
+                     onMouseEnter={() => setIsHovered(true)}
+                     onMouseLeave={() => setIsHovered(false)}
                      onClick={() => setIsSubListVisible(!isSubListVisible)}>
                     <Button
                         variant="secondary"
@@ -79,6 +87,7 @@ const ListTile = (props) => {
                         onClick={() => setIsSubListVisible(!isSubListVisible)}>
                         {data.leadingButton}
                     </Button>
+                    {isHovered && <div className={"absolute -left-20"}><HoverIcon/></div>}
                     <div className="flex-1" style={{userSelect: 'none'}}>
                         <div className="text-lg font-medium">{data.title}</div>
                         <div className="text-sm text-muted-foreground">{data.subtitle}</div>
