@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {FileText, Link, File, Edit, Trash2, ArrowDownToLine, MoreHorizontal} from "lucide-react";
+import {FileText, Link, File, Edit, Trash2, ArrowDownToLine, MoreVertical} from "lucide-react";
 import {Button} from "@/components/ui/button.jsx";
 import {
     DropdownMenu,
@@ -70,7 +70,7 @@ const SubListItem = (props) => {
     return (
         <>
             <div ref={(node) => drag(ref(node))} style={{opacity: isDragging ? 0.5 : 1}}
-                 className={props.moduleId ? "flex gap-3 items-center py-4 ml-14 border-b last:border-0" : "flex gap-3 items-center py-4 px-4 border shadow-lg w-4/5 mx-auto rounded-lg my-4"}>
+                 className={props.moduleId ? "flex gap-3 items-center py-4 ml-14 border-b last:border-0" : "flex gap-3 items-center py-4 px-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4"}>
                 {getIcon(props.item.type)}
                 <div className="flex-1" onClick={clickHandler}>
                     <div className="text-sm font-medium">{props.item.name}</div>
@@ -79,7 +79,7 @@ const SubListItem = (props) => {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="secondary" size="icon" className="ml-2">
-                            <MoreHorizontal className="h-4 w-4"/>
+                            <MoreVertical className="h-4 w-4"/>
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end"

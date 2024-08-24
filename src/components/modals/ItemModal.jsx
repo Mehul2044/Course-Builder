@@ -99,7 +99,7 @@ function ItemModal(props) {
                                 props.type === "editlink" ? handleEditLink :
                                     handleRenameFile
                         }
-                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        className="px-4 py-2 bg-[#008392] text-white rounded-md hover:bg-[#006b73]">
                         {props.type === "addlink" && "Add"}
                         {props.type === "editlink" && "Edit"}
                         {props.type === "renameFile" && "Rename"}

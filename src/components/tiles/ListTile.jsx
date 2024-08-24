@@ -7,7 +7,7 @@ import {
     DropdownMenuContent,
     DropdownMenuItem
 } from "@/components/ui/dropdown-menu.jsx";
-import {MoreHorizontal, ChevronDown, PencilLine, Trash2, ChevronUp} from "lucide-react";
+import {ChevronDown, PencilLine, Trash2, ChevronUp, MoreVertical} from "lucide-react";
 import SubListItem from "@/src/components/tiles/SubListItem.jsx";
 import ModuleModal from "@/src/components/modals/ModuleModal.jsx";
 import {moduleActions} from "@/src/store/module-slice.js";
@@ -86,7 +86,7 @@ const ListTile = (props) => {
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="secondary" size="icon" className="ml-4">
-                                <MoreHorizontal/>
+                                <MoreVertical/>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
