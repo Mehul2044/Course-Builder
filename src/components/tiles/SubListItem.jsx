@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import {FileText, Link, File, Edit, Trash2, ArrowDownToLine, MoreVertical} from "lucide-react";
-import {Button} from "@/components/ui/button.jsx";
 import {
     DropdownMenu,
     DropdownMenuTrigger,
@@ -12,6 +11,7 @@ import ItemModal from "@/src/components/modals/ItemModal.jsx";
 import {useDispatch} from "react-redux";
 import {moduleActions} from "@/src/store/module-slice.js";
 import {useDrag, useDrop} from "react-dnd";
+import {useTheme} from "@/components/theme-provider.jsx";
 
 const SubListItem = (props) => {
     const [{isDragging}, drag] = useDrag({
@@ -38,6 +38,7 @@ const SubListItem = (props) => {
     const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const dispatch = useDispatch();
+    const {theme} = useTheme();
 
     const deleteHandler = () => {
         dispatch(moduleActions.removeItem({moduleId: props.moduleId, itemId: props.item.id}));
@@ -84,18 +85,19 @@ const SubListItem = (props) => {
             <div ref={(node) => drag(ref(node))} style={{opacity: isDragging ? 0.5 : 1}}
                  className={props.moduleId ? "flex gap-3 items-center py-4 ml-14 border-b last:border-0" : "flex gap-3 items-center py-4 px-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4"}>
                 {getIcon(props.item.type)}
-                <div className="flex-1" onClick={clickHandler}>
+                <div className="flex-1 cursor-pointer" onClick={clickHandler}>
                     <div className="text-sm font-medium">{props.item.name}</div>
                     <div className="text-xs text-muted-foreground">{props.item.type.toUpperCase()}</div>
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="secondary" size="icon" className="ml-2">
-                            <MoreVertical className="h-4 w-4"/>
-                        </Button>
+                        <div
+                            className={`p-2 rounded-lg ${theme === "light" ? "hover:bg-gray-200 text-black" : "hover:bg-gray-700 text-white"} cursor-pointer`}>
+                            <MoreVertical/>
+                        </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end"
-                                         className="rounded-md shadow-lg min-w-[14rem] bg-white text-gray-600 font-medium">
+                                         className={`rounded-md shadow-lg min-w-[16rem] bg-white text-gray-600 font-medium ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
                         <DropdownMenuItem
                             onClick={() => {
                                 if (props.item.type === "link") {

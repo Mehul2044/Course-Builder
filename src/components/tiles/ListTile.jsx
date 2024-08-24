@@ -13,6 +13,7 @@ import ModuleModal from "@/src/components/modals/ModuleModal.jsx";
 import {moduleActions} from "@/src/store/module-slice.js";
 import {useDispatch} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
+import {useTheme} from "@/components/theme-provider.jsx";
 
 const ListTile = (props) => {
     const [{isDragging}, drag] = useDrag({
@@ -52,13 +53,14 @@ const ListTile = (props) => {
     const [isSubListVisible, setIsSubListVisible] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const dispatch = useDispatch();
+    const {theme} = useTheme();
 
     const data = {
         leadingButton: isSubListVisible ? <ChevronUp/> : <ChevronDown/>,
         title: props.module.title,
         subtitle:
             props.module.noOfItems === 0
-                ? "No items"
+                ? "Add items to this module"
                 : `${props.module.noOfItems} items`,
         onEdit: () => setIsEditModalOpen(true),
         onDelete: () => dispatch(moduleActions.removeModule({id: props.module.id})),
@@ -68,7 +70,7 @@ const ListTile = (props) => {
         <>
             <div ref={(node) => drag(drop(node))} style={{opacity: isDragging ? 0.5 : 1}}
                  className="flex flex-col p-6 border shadow-lg w-4/5 mx-auto rounded-lg my-4">
-                <div className="flex items-center justify-between"
+                <div className="flex items-center justify-between cursor-pointer"
                      onClick={() => setIsSubListVisible(!isSubListVisible)}>
                     <Button
                         variant="secondary"
@@ -77,21 +79,20 @@ const ListTile = (props) => {
                         onClick={() => setIsSubListVisible(!isSubListVisible)}>
                         {data.leadingButton}
                     </Button>
-                    <div className="flex-1"
-                         style={{userSelect: 'none'}}>
-
+                    <div className="flex-1" style={{userSelect: 'none'}}>
                         <div className="text-lg font-medium">{data.title}</div>
                         <div className="text-sm text-muted-foreground">{data.subtitle}</div>
                     </div>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="secondary" size="icon" className="ml-4">
+                            <div
+                                className={`p-2 rounded-lg ${theme === "light" ? "hover:bg-gray-200 text-black" : "hover:bg-gray-700 text-white"} cursor-pointer`}>
                                 <MoreVertical/>
-                            </Button>
+                            </div>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
                             align="end"
-                            className="rounded-md shadow-lg min-w-[16rem] bg-white text-gray-600 font-medium">
+                            className={`rounded-md shadow-lg min-w-[16rem] bg-white text-gray-600 font-medium ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
                             <DropdownMenuItem
                                 onClick={data.onEdit}
                                 className="py-[0.6rem] text-base flex">
